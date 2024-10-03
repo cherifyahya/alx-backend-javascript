@@ -34,18 +34,19 @@ describe('API integration test', () => {
     });
   });
 
-  it('GET /available_payments returns valid json', (done) => {
-    request.get(`${API_URL}/available_payments`, (_err, res, body) => {
+  it('POST /login returns valid response', (done) => {
+    request.post(`${API_URL}/login`, {json: {userName: 'betty'}}, (_err, res, body) => {
       expect(res.statusCode).to.be.equal(200);
-      expect(JSON.parse(body)).to.be.deep.equal({payment_methods: {credit_cards: true, paypal: false}});
+      expect(body).to.be.equal('Welcome betty');
       done();
     });
   });
 
-  it('POST /login returns valid response', (done) => {
-    request.post(`${API_URL}/login`, {json: {userName: 'yahya'}}, (_err, res, body) => {
+  it('GET /available_payments returns valid response', (done) => {
+    request.get(`${API_URL}/available_payments`, (_err, res, body) => {
       expect(res.statusCode).to.be.equal(200);
-      expect(body).to.be.equal('Welcome yahya');
+      expect(JSON.parse(body))
+        .to.be.deep.equal({payment_methods: {credit_cards: true, paypal: false}});
       done();
     });
   });
